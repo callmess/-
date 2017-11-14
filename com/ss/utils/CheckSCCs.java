@@ -13,8 +13,8 @@ public class CheckSCCs {
 
     /**
      * 社会信用代码
-     * @param str
-     * @return
+     * @param str inputString
+     * @return boolean result
      */
     private static boolean checkSCC(String str) {
         //代码字符集-代码字符
@@ -39,7 +39,7 @@ public class CheckSCCs {
 //            System.out.println("表达式非法！");
             return false;
         }
-        Map map = new HashMap();
+        Map<String, String> map = new HashMap<>();
 
         for (int i = 0; i < codeNo.length; i++) {
             map.put(codeNo[i], staVal[i]);
@@ -56,7 +56,7 @@ public class CheckSCCs {
 
         for (int i = 0; i < values.length; i++) {
             final String val = Character.toString(values[i]);
-            parity += wi[i] * Integer.parseInt(map.get(val).toString());
+            parity += wi[i] * Integer.parseInt(map.get(val));
         }
 
 //        String cheak = (31 - parity % 31) == 30 ? "Y" : Integer.toString(31 - parity % 31);
@@ -65,7 +65,7 @@ public class CheckSCCs {
 
 
         int cheak = (31 - parity % 31);
-        if(cheak==31){
+        if (cheak == 31) {
             return "0".equals(all[1]);
         }
         String _18Str = codeNo[cheak];
@@ -79,7 +79,7 @@ public class CheckSCCs {
         final String[] codeNo = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "T", "U", "W", "X", "Y"};
         for (int j = 0; j < 31; j++) {
             for (int i = 1000; i < 10000; i++) {
-                String str = "91350100M0001" + i+codeNo[j];
+                String str = "91350100M0001" + i + codeNo[j];
 
                 boolean res = checkSCC(str);
                 if (res) {
@@ -91,9 +91,12 @@ public class CheckSCCs {
 
     }
 
-
+    /**
+     * @param aae053 社会组织代码粗码
+     * @return 社会组织代码
+     */
     public static String getAae053(String aae053) {
-        int[] ws = { 3, 7, 9, 10, 5, 8, 4, 2 };
+        int[] ws = {3, 7, 9, 10, 5, 8, 4, 2};
         String str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         int sum = 0;
@@ -111,8 +114,12 @@ public class CheckSCCs {
         return aae053 + c9str;
     }
 
+    /**
+     * @param aae053 社会组织代码
+     * @return result
+     */
     public static boolean checkAab003(String aae053) {
-        int[] ws = { 3, 7, 9, 10, 5, 8, 4, 2 };
+        int[] ws = {3, 7, 9, 10, 5, 8, 4, 2};
         String str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String reg = "^([0-9A-Z]){8}[0-9|X]$";// /^[A-Za-z0-9]{8}-[A-Za-z0-9]{1}$/
         if (!aae053.matches(reg)) {
@@ -133,5 +140,33 @@ public class CheckSCCs {
         return c9str.equals(String.valueOf(aae053.charAt(8)));
     }
 
+
+    /**
+     * 校验港澳台社会保障号合法性
+     * @param aac002 身份证
+     * @param aac161 国家代码
+     * @param aac147 证件号码
+     * @param aac058 证件类型?
+     * @return result
+     */
+    public static Boolean checkNationCode(String aac002, String aac161, String aac147, String aac058) {
+
+        String nationCode = aac002.substring(0, 3);//前三位国家/地区代码
+        String IDnumber = aac002.substring(4); //证件号码
+        String asizeCode = aac002.substring(3, 4); //预留位
+        if (!nationCode.equals(aac161) || !asizeCode.matches("[0-9]") || !IDnumber.matches("[0-9]{8}")) {
+            return false;
+        }
+        if ("HKG".equals(aac161) && "04".equals(aac058)) {
+            aac147 = aac147.substring(1, 9);
+            return aac147.equals(IDnumber);
+        }
+        if ("TWN".equals(aac161) && "06".equals(aac058)) {
+            aac147 = aac147.substring(0, 8);
+            return aac147.equals(IDnumber);
+        }
+
+        return false;
+    }
 }
 
