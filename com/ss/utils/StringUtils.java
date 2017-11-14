@@ -1,6 +1,14 @@
 package com.ss.utils;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import sun.misc.BASE64Decoder;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -135,5 +143,51 @@ public class StringUtils {
         return localStringBuffer.toString();
     }
 
+    /**
+     * 字符A包含字符B?
+     * @param str      大字符
+     * @param childStr 小字符
+     * @return result
+     */
+    public static boolean contains(String str, String childStr) {
+        return str.indexOf(childStr) > 0;
 
+    }
+
+
+    /**
+     * Base64 格式字符串转到文件
+     * @param filePath   文件存储路径
+     * @param fileName   文件名
+     * @param fileString 文件内容 Base64
+     * @throws IOException io
+     */
+    public static void string2FileFromBase64Code(String filePath, String fileName, String fileString) throws IOException {
+        byte[] buffer = new BASE64Decoder().decodeBuffer(fileString);
+        FileOutputStream out = new FileOutputStream(filePath + fileName);
+        out.write(buffer);
+        out.close();
+    }
+
+    /**
+     * JSon对象 转成JSon字符串
+     * @param src JSon对象
+     * @return JSon字符串
+     */
+    public static String toJsonStr(Object src) {
+        Gson gson = new GsonBuilder().create();
+        return gson.toJson(src);
+    }
+
+    /**
+     * JSon字符串转成集合
+     * @param json JSon字符串
+     * @return 集合
+     */
+    public static Map json2Collection(String json) {
+        Gson gson = new Gson();
+        Map map = gson.fromJson(json, new TypeToken<Object>() {
+        }.getType());
+        return map;
+    }
 }
