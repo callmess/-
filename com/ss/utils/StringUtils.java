@@ -1,5 +1,10 @@
 package com.ss.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by ss on 2016/5/5.
  * Use for :
@@ -23,14 +28,13 @@ public class StringUtils {
 
             }
         }
-        String returnString = new String(c);
 
-        return returnString;
+        return new String(c);
     }
 
     /**
      * 半角转全角
-     * @param inputStr
+     * @param inputStr the String should be input
      * @return 全角字符
      */
     public static String to_mu_type(String inputStr) {
@@ -42,15 +46,14 @@ public class StringUtils {
                 c[i] = (char) (c[i] + 65248);
             }
         }
-        String resultString = new String(c);
-        return resultString;
+        return new String(c);
     }
 
     /**
      * 反转字符串
      * @param str 字符串
      */
-    public static void reverString(String str) {
+    public static String reverString(String str) {
 
         char[] chars = str.toCharArray();
         System.out.println(chars);
@@ -59,8 +62,8 @@ public class StringUtils {
             chars[i] = chars[len - 1 - i];
             chars[len - 1 - i] = temp;
         }
-        System.out.println(chars);
-        return;
+
+        return new String(chars);
     }
 
     /**
@@ -73,37 +76,64 @@ public class StringUtils {
     }
 
     /**
-     * 校验港澳台社会保障号合法性
-     * @param aac002
-     * @param aac161
-     * @param aac147
-     * @param aac058
-     * @return
+     * 提取字符串中的数字 : 通过正则将非数字替换成空
+     * @param str 参数字符串
+     * @return 返回数字字符串
      */
-    public static Boolean checkNationCode(String aac002, String aac161, String aac147, String aac058) {
-
-        String nationCode = aac002.substring(0, 3);//前三位国家/地区代码
-        String IDnumber = aac002.substring(4); //证件号码
-        String asizeCode = aac002.substring(3, 4); //预留位
-        if (!nationCode.equals(aac161) || !asizeCode.matches("[0-9]") || !IDnumber.matches("[0-9]{8}")) {
-            return false;
+    public static String getNumberFromString(String str) {
+        if (str == null) {
+            return "";
         }
-        if ("HKG".equals(aac161) && "04".equals(aac058)) {
-            aac147 = aac147.substring(1, 9);
-            return aac147.equals(IDnumber);
-        }
-        if ("TWN".equals(aac161) && "06".equals(aac058)) {
-            aac147 = aac147.substring(0, 8);
-            return aac147.equals(IDnumber);
-        }
-
-        return false;
+        String regEx = "[^0-9]";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.replaceAll("").trim();
     }
 
 
-    public static void main(String args[]) {
-        printMuByte();
-//        System.out.println( "12345678".matches("[0-9]{8}"));
-//        System.out.println( checkNationCode("HKG012345678","HKG","H1234567800","04"));
+    /**
+     * 转换UTF-8编码
+     * @param str ISO String
+     * @return UTF8 String
+     * @throws UnsupportedEncodingException 不支持的编码异常
+     */
+    public static String charset2UTF8(String str) throws UnsupportedEncodingException {
+        if (str == null) {
+            return null;
+        }
+        return changeCharset("ISO-8859-1", "UTF-8"); // 用新的字符编码生成字符串
     }
+
+    /**
+     * 转换字符串编码
+     * @param str     待转编码字符串
+     * @param charset 编码类型
+     * @return 转后字符串
+     * @throws UnsupportedEncodingException 不支持的编码异常
+     */
+    private static String changeCharset(String str, String charset) throws UnsupportedEncodingException {
+        if (str == null) {
+            return null;
+        }
+        return new String(str.getBytes("ISO-8859-1"), charset); // 用新的字符编码生成字符串
+
+    }
+
+    /**
+     * 获取长度len的随机字符
+     * @param len 长度
+     * @return str
+     */
+    public static String getRandomString(int len) {
+        String str = "abcdefghijklmnopqrstuvwxyz0123456789";
+        Random localRandom = new Random();
+        StringBuilder localStringBuffer = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+            int j = localRandom.nextInt(str.length());
+            localStringBuffer.append(str.charAt(j));
+        }
+        return localStringBuffer.toString();
+    }
+
+
 }
