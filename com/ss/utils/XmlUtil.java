@@ -22,11 +22,9 @@ import java.util.Map;
 
 /**
  * XML文档组装和解析工具类
- * @author TODO To change the template for this generated type comment go to
- *         Window - Preferences - Java - Code Style - Code Templates
  */
-@SuppressWarnings("unchecked")
 public class XmlUtil {
+
     /**
      * 缺省字符集
      */
