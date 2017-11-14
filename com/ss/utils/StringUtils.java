@@ -1,4 +1,4 @@
-package com.ss.usefortest;
+package com.ss.utils;
 
 /**
  * Created by ss on 2016/5/5.

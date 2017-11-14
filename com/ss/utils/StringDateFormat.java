@@ -1,4 +1,4 @@
-package com.ss.usefortest;
+package com.ss.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
