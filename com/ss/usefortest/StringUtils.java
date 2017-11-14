@@ -1,22 +1,19 @@
 package com.ss.usefortest;
 
-import org.apache.commons.collections.map.HashedMap;
-
-import java.util.Map;
-
 /**
  * Created by ss on 2016/5/5.
  * Use for :
  */
-public class Test {
+public class StringUtils {
 
 
-    /** 通过Unicode编码区间的转换达到转换的效果
+    /**
      * 全角转半角
+     * 通过Unicode编码区间的转换达到转换的效果
      * @param inputStr 全角
      * @return 半角字符
      */
-    public static String to_single_byte(String inputStr){
+    public static String to_single_byte(String inputStr) {
         char c[] = inputStr.toCharArray();
         for (int i = 0; i < c.length; i++) {
             if (c[i] == '\u3000') {
@@ -32,42 +29,46 @@ public class Test {
     }
 
     /**
-     *
+     * 半角转全角
      * @param inputStr
      * @return 全角字符
      */
-    public static String to_mu_type (String inputStr){
-        char c []=inputStr.toCharArray();
-        for (int i = 0; i <c.length ; i++) {
-            if (c [i]==' '){
-                c[i]='\u3000';
-            }
-            else if (c[i] < '\177') {
+    public static String to_mu_type(String inputStr) {
+        char c[] = inputStr.toCharArray();
+        for (int i = 0; i < c.length; i++) {
+            if (c[i] == ' ') {
+                c[i] = '\u3000';
+            } else if (c[i] < '\177') {
                 c[i] = (char) (c[i] + 65248);
             }
         }
-        String resultString= new String(c);
+        String resultString = new String(c);
         return resultString;
     }
 
+    /**
+     * 反转字符串
+     * @param str 字符串
+     */
+    public static void reverString(String str) {
 
-    /*public static void main(String args[]) {
-        String str= to_single_byte("４５６７８９ｄ ！＠＄＾＆＊＊（）＿＋＠＃＄～？？＜＞：＂｛｝｜ｄｄ");
-        System.out.println('\uFF01');
-        System.out.println(str);*//*
-        String str ="123456+123456677888+234567";
-        String aa[] =str.split("");
-
-        for (String a:aa
-             ) {
-            System.out.println(a);
+        char[] chars = str.toCharArray();
+        System.out.println(chars);
+        for (int i = 0, len = chars.length; i < len / 2; i++) {
+            char temp = chars[i];
+            chars[i] = chars[len - 1 - i];
+            chars[len - 1 - i] = temp;
         }
+        System.out.println(chars);
+        return;
+    }
 
-    }*/
-
-    public static void printMuByte(){
-        for (int i ='\0'; i < '\uFF6F' ; i++) {
-            System.out.print((char)i);
+    /**
+     * 字符区间
+     */
+    public static void printMuByte() {
+        for (int i = '\0'; i < '\uFF6F'; i++) {
+            System.out.print((char) i);
         }
     }
 
@@ -79,7 +80,7 @@ public class Test {
      * @param aac058
      * @return
      */
-     public static Boolean checkNationCode(String aac002, String aac161, String aac147,String aac058) {
+    public static Boolean checkNationCode(String aac002, String aac161, String aac147, String aac058) {
 
         String nationCode = aac002.substring(0, 3);//前三位国家/地区代码
         String IDnumber = aac002.substring(4); //证件号码
@@ -89,11 +90,11 @@ public class Test {
         }
         if ("HKG".equals(aac161) && "04".equals(aac058)) {
             aac147 = aac147.substring(1, 9);
-            return aac147.equals( IDnumber);
+            return aac147.equals(IDnumber);
         }
         if ("TWN".equals(aac161) && "06".equals(aac058)) {
             aac147 = aac147.substring(0, 8);
-            return aac147.equals( IDnumber);
+            return aac147.equals(IDnumber);
         }
 
         return false;
