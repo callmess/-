@@ -1,0 +1,32 @@
+*.class
+
+#packege file
+*.war
+*.ear
+
+#kidff3 ignore
+*.orig
+
+#maven ignore
+
+target/
+
+#ide ignore
+
+.idea/
+/idea/
+*.iml
+*.ipr
+*.iws
+.settings
+.calsspatch
+.project
+
+#temp file
+
+*.log
+*.diff
+*.cache
+*.tmp
+/out
+UtilsCode.iml
