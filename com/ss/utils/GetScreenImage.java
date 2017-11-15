@@ -6,13 +6,16 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 
-public class TsetGetImage {
+public class GetScreenImage {
 
-    public static void getScreen() throws IOException, URISyntaxException, AWTException {
+    /**
+     * 截屏
+     * @throws IOException  io 异常
+     * @throws AWTException 图形异常
+     */
+    public static void getScreen() throws AWTException, IOException {
 
-    /*-----------------方法1：抓取屏幕----------------------------------------*/
         //此方法仅适用于JdK1.6及以上版本
         Robot robot = new Robot();
         robot.delay(10000);
@@ -27,9 +30,17 @@ public class TsetGetImage {
         Graphics g = bi.createGraphics();
         g.drawImage(image, 0, 0, width, height, null);
         //保存图片
-        ImageIO.write(bi, "jpg", new File("D:\\google.jpg"));
-  /*------------------------方法1 结束----------------------------------------------*/
+        ImageIO.write(bi, "jpg", new File("D:\\screen.jpg"));
 
+
+    }
+
+    public static void main(String agrs[]) {
+        try {
+            getScreen();
+        } catch (AWTException | IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }
