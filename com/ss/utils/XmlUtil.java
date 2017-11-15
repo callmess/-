@@ -75,8 +75,8 @@ public class XmlUtil {
     }
 
     public static Map<String, String> getAllAttributeValusToMap(Element element) {
-        DefaultAttribute e = null;
-        Map<String, String> attrs = new HashMap<String, String>();
+        DefaultAttribute e;
+        Map<String, String> attrs = new HashMap<>();
         List<DefaultAttribute> list = element.attributes();
         for (int i = 0; i < list.size(); i++) {
             e = list.get(i);
