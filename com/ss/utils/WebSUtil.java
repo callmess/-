@@ -1,5 +1,8 @@
 package com.ss.utils;
 
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
+import org.apache.cxf.transport.http.HTTPConduit;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -18,6 +21,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,13 +33,13 @@ public class WebSUtil {
 
 
     /**
-     * 获取最小节点的数据 ,由于数据是放在map中,
+     * 获取XML最小节点的数据 ,由于数据是放在map中,
      * 注意 :如果有多个叶子节点名称相同,则会发生覆盖.最后得到值会和预想的不一样
      * @param element 参数
      * @param mp      用于接受节点数据的map,理论上要求是个空的map
      * @return 节点数据map
      */
-    public static Map<String, String> getElementMap(Element element, Map<String, String> mp) {
+    public static Map<String, String> getXMLElementMap(Element element, Map<String, String> mp) {
         List elements = element.elements();
         // 没有子元素,叶子节点
         if (elements.isEmpty()) {
@@ -47,7 +51,7 @@ public class WebSUtil {
             for (final Object element1 : elements) {
                 Element elem = (Element) element1;
                 // 递归遍历
-                getElementMap(elem, mp);
+                getXMLElementMap(elem, mp);
             }
         }
         return mp;
@@ -55,10 +59,10 @@ public class WebSUtil {
 
     /**
      * 注意 :如果有多个叶子节点名称相同,则会发生覆盖.最后得到值会和预想的不一样
-     * @param xmlString
-     * @return
+     * @param xmlString xml String
+     * @return elementMap
      */
-    public static Map getElementMap(String xmlString) {
+    public static Map getXMLElementMap(String xmlString) {
         Document doc = null;
         try {
             doc = DocumentHelper.parseText(xmlString);
@@ -70,11 +74,12 @@ public class WebSUtil {
         // 获取XML根元素
         Element rootElement = doc.getRootElement();
         Map mp = new HashMap<>();
-        return getElementMap(rootElement, mp);
+        return getXMLElementMap(rootElement, mp);
     }
 
 
     /**
+     * 调用WebService服务
      * @param soapXml 请求报文
      * @param url     服务地址
      * @return 返回报文
@@ -89,6 +94,7 @@ public class WebSUtil {
 
 
     /**
+     * 调用WebService服务
      * @param url         WebService服务的请求地址
      * @param soapXml     请求报文
      * @param propertyMap 请求参数
@@ -160,8 +166,8 @@ public class WebSUtil {
     }
 
     /**
-     * 获取报文
-     * @param data       参数
+     * 获取XML报文
+     * @param data       节点Map参数
      * @param SOAPAction API接口方法
      * @return 请求报文
      * @throws Exception 异常
@@ -215,5 +221,40 @@ public class WebSUtil {
         }
     }
 
+    /**
+     * cxf 调用servicel 例子
+     * @throws Exception ex
+     */
+    public static void invokeService() throws Exception {
+
+        System.out.println(new Date() + "初始化开始...");
+
+        JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+        String url = "https://swsim.testing.stamps.com/swsim/swsimv62.asmx?wsdl";
+        Client client = dcf.createClient(url);
+        HTTPConduit http = (HTTPConduit) client.getConduit();
+      /*  HTTPClientPolicy httpClientPolicy = new HTTPClientPolicy();
+        httpClientPolicy.setConnectionTimeout(200000);
+        httpClientPolicy.setReceiveTimeout(600000);
+        http.setClient(httpClientPolicy);
+*/
+
+        String xmlInput = "<input></input>";
+
+
+        /****接口调用测试****/
+        //=========CXF========//
+        System.out.println(new Date() + "业务执行开始...");
+        String methodStr = "AuthenticateUser";
+        Object[] objects;
+        objects = client.invoke(methodStr, xmlInput);
+        String rexml = "";
+        for (final Object object : objects) {
+            rexml += object.toString();
+        }
+        System.out.println(objects[0].toString());
+        System.out.println(rexml);
+        System.out.println(new Date() + "业务执行结束!");
+    }
 
 }
