@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class CatchImage {
 
 
-    private static final String URL = "http://www.csdn.net"; // 地址
+    private static final String URL = "http://music.163.com/"; // 地址
     private static final String ECODING = "UTF-8"; // 编码
     private static final String IMGURL_REG = "<img.*src=(.*?)[^>]*?>";       // 获取img标签正则
     private static final String IMGSRC_REG = "http:\"?(.*?)(\"|>|\\s+)";     // 获取src路径的正则
@@ -88,12 +88,12 @@ public class CatchImage {
      * @param listImgSrc list<Str>
      */
     private void Download(List<String> listImgSrc) {
+        int i =1;
         try {
             for (String url : listImgSrc) {
-                String imageName = "D:\\1.png";
+                String imageName = "D:\\imageDownload\\image-" + i + ".png ";
                 URL uri = new URL(url);
                 InputStream in = uri.openStream();
-                //uri.openStream();
                 FileOutputStream fo = new FileOutputStream(new File(imageName));
                 byte[] buf = new byte[1024];
                 int length = 0;
@@ -104,9 +104,11 @@ public class CatchImage {
                 in.close();
                 fo.close();
                 System.out.println(imageName + "下载完成");
+                i++;
             }
         } catch (Exception e) {
             System.out.println("下载失败");
+            e.printStackTrace();
         }
     }
 
