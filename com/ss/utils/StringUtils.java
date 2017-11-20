@@ -170,6 +170,25 @@ public class StringUtils {
     }
 
     /**
+     * @param filePath 文件路径
+     * @param fileName 文件名
+     * @param buffer   字节数组
+     * @return result
+     */
+    public static boolean byte2File(String filePath, String fileName, byte[] buffer) {
+
+        try {
+            FileOutputStream out = new FileOutputStream(filePath + fileName);
+            out.write(buffer);
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * JSon对象 转成JSon字符串
      * @param src JSon对象
      * @return JSon字符串
@@ -190,4 +209,26 @@ public class StringUtils {
         }.getType());
         return map;
     }
+
+
+    /**
+     * 正则匹配出想要的字符串
+     * @param strData 数据
+     * @param regex   正则
+     * @return result str
+     */
+    private static String getRegexStr(String strData, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(strData);
+        StringBuffer data = new StringBuffer();
+        while (matcher.find()) {
+            int i = 0;
+            data.append(matcher.group(i));
+            i++;
+
+        }
+        return data.toString();
+    }
+
+
 }
