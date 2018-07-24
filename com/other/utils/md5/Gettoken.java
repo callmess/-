@@ -18,9 +18,7 @@ import java.security.cert.X509Certificate;
 /**
  * 类名: CommonUtil </br>
  * 描述: 通用工具类 </br>
- * 开发人员： souvc </br>
  * 创建时间：  2015-9-30 </br>
- * 发布版本：V1.0  </br>
  */
 public class Gettoken {
     // 凭证获取（GET）
@@ -32,7 +30,7 @@ public class Gettoken {
      * @param requestUrl    请求地址
      * @param requestMethod 请求方式（GET、POST）
      * @param outputStr     提交的数据
-     * @return JSONObject(通过JSONObject.get(key)的方式获取json对象的属性值)
+     * @return JSONObject(通过JSONObject.get ( key)的方式获取json对象的属性值)
      */
     public static JSONObject httpsRequest(String requestUrl, String requestMethod, String outputStr) {
         JSONObject jsonObject = null;
@@ -109,14 +107,17 @@ public class Gettoken {
 
     public static class MyX509TrustManager implements X509TrustManager {
         // 检查客户端证书
+        @Override
         public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
         }
 
         // 检查服务器端证书
+        @Override
         public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
         }
 
         // 返回受信任的X509证书数组
+        @Override
         public X509Certificate[] getAcceptedIssuers() {
             return null;
         }

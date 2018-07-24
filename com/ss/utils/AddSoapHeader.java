@@ -37,6 +37,7 @@ public class AddSoapHeader extends AbstractSoapInterceptor {
     	this.passWord = passWord;
 
     }
+    @Override
     public void handleMessage(SoapMessage message) throws Fault {
     	
         QName qname=new QName("RequestSOAPHeader");   

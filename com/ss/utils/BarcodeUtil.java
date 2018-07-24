@@ -10,8 +10,7 @@ import java.io.*;
 
 /**
  * 条形码工具类
- * @author tangzz
- * @createDate 2015年9月17日
+ * @author juneday
  */
 public class BarcodeUtil {
 

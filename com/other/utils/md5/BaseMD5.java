@@ -351,11 +351,12 @@ public class BaseMD5 {
         int i, j;
 
 
-        for (i = 0, j = 0; j < len; i++, j += 4)
+        for (i = 0, j = 0; j < len; i++, j += 4) {
             output[i] = b2iu(input[j]) |
                     (b2iu(input[j + 1]) << 8) |
                     (b2iu(input[j + 2]) << 16) |
                     (b2iu(input[j + 3]) << 24);
+        }
 
         return;
     }
