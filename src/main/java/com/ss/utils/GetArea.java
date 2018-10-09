@@ -18,14 +18,14 @@ public class GetArea {
         //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
         headers.put("Authorization", "APPCODE " + appcode);
         Map<String, String> querys = new HashMap<String, String>();
-        querys.put("callback", "callback");
+//        querys.put("callback", "callback");
         querys.put("extensions", "base");
         querys.put("filter", "filter");
         querys.put("offset", "20");
         querys.put("output", "JSON");
         querys.put("page", "1");
         querys.put("showbiz", "true");
-        querys.put("subdistrict", "1");
+        querys.put("subdistrict", "0");
         querys.put("keywords", "440100");
 
 
