@@ -13,15 +13,14 @@ import java.util.concurrent.TimeUnit;
  * Created by juneday on 2017/7/21.
  */
 public class TokenCache {
+    public static final String TOKEN_PREFIX = "token_";
     private static Logger logger = LoggerFactory.getLogger(TokenCache.class);
-    public static final String TOKEN_PREFIX="token_";
-    private static LoadingCache<String, String> localCache = CacheBuilder.newBuilder().initialCapacity(1000).maximumSize(10000).expireAfterAccess(12, TimeUnit.HOURS)
-            .build(new CacheLoader<String, String>() {
-                @Override
-                public String load(String s) throws Exception {
-                    return "null";
-                }
-            });
+    private static LoadingCache<String, String> localCache = CacheBuilder.newBuilder().initialCapacity(1000).maximumSize(10000).expireAfterAccess(12, TimeUnit.HOURS).build(new CacheLoader<String, String>() {
+        @Override
+        public String load(String s) throws Exception {
+            return "null";
+        }
+    });
 
 
     public static void setKey(String key, String value) {
@@ -38,7 +37,7 @@ public class TokenCache {
             }
             return value;
         } catch (ExecutionException e) {
-           logger.error("localCache get error" ,e);
+            logger.error("localCache get error", e);
         }
         return null;
     }

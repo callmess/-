@@ -16,7 +16,7 @@ public class ReflectModelUtil {
     /**
      * 通过反射初始化实体，返回实体map
      * @param object
-     * @return Map<String, Object>
+     * @return Map<String ,   Object>
      */
     public static Map<String, Object> getformatObject(Object object) {
         Class<?> cl = object.getClass();
@@ -43,7 +43,7 @@ public class ReflectModelUtil {
     /**
      * 通过反射初始化实体，返回实体map
      * @param object
-     * @return Map<String, Object>
+     * @return Map<String ,   Object>
      */
     public static Map<String, Object> initformatObject(Object object) {
         Class<?> cl = object.getClass();
@@ -171,7 +171,7 @@ public class ReflectModelUtil {
     /**
      * 通过反射初始化实体，返回实体map
      * @param object
-     * @return Map<String, Object>
+     * @return Map<String ,   Object>
      */
     public static Map<String, Object> getformatObject(Map<String, Object> o, Object object) {
         Class<?> cl = object.getClass();
