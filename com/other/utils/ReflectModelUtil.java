@@ -271,8 +271,8 @@ public class ReflectModelUtil {
 
     /**
      * map 转为实体
-     * @param type
      * @param map
+     * @param beanClass
      * @return
      */
     public static Object mapToObject(Map<String, Object> map, Class<?> beanClass) {
