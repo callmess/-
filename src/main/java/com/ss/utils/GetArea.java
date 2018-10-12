@@ -43,6 +43,7 @@ public class GetArea {
             System.out.println(response.toString());
             //获取response的body
             System.out.println(EntityUtils.toString(response.getEntity()));
+            String resultJSON=EntityUtils.toString(response.getEntity());
         } catch (Exception e) {
             e.printStackTrace();
         }

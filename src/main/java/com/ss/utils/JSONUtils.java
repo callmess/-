@@ -124,7 +124,6 @@ public class JSONUtils {
                 }
             }
         } catch (Exception e) {
-            o = null;
             throw e;
         }
         return o;

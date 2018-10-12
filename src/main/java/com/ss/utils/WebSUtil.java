@@ -78,64 +78,6 @@ public class WebSUtil {
     }
 
 
-    /**
-     * 调用WebService服务
-     * @param soapXml 请求报文
-     * @param url     服务地址
-     * @return 返回报文
-     * @throws IOException 异常
-     */
-    public static String execteHttpServer(String soapXml, String url) throws IOException {
-        Map<String, String> propertyMap = new HashMap();
-        propertyMap.put("Content-Type", "text/xml");
-        propertyMap.put("chartset", "UTF-8");
-        return execteHttpServer(url, soapXml, propertyMap);
-    }
-
-
-    /**
-     * 调用WebService服务
-     * @param url         WebService服务的请求地址
-     * @param soapXml     请求报文
-     * @param propertyMap 请求参数
-     * @return 返回报文
-     * @throws IOException 异常
-     */
-    private static String execteHttpServer(String url, String soapXml, Map<String, String> propertyMap) throws IOException {
-        URL serUrl = new URL(url);
-        HttpURLConnection conn = (HttpURLConnection) serUrl.openConnection(); //建立连接，并将连接强转为Http连接
-        conn.setRequestMethod("POST"); // 设置请求方式
-        conn.setConnectTimeout(50000);
-        conn.setDoOutput(true);   //是否有出参
-        for (Map.Entry<String, String> entry : propertyMap.entrySet()) {
-            conn.setRequestProperty(entry.getKey(), entry.getValue());
-        }
-        if (null != soapXml) {
-            byte[] entitydata = soapXml.getBytes();
-            conn.setRequestProperty("Content-length", String.valueOf(entitydata.length));
-            OutputStreamWriter outputStream = new OutputStreamWriter(conn.getOutputStream(), "ISO-8859-1");
-            outputStream.write(soapXml);
-            outputStream.flush();
-            outputStream.close();
-        }
-        int code = conn.getResponseCode();
-        String responString = "";
-        InputStream inputStream;
-        if (code == 200) {
-            inputStream = conn.getInputStream();
-        } else {
-            inputStream = conn.getErrorStream();
-        }
-        String sCurrentLine;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "ISO-8859-1"));
-
-        while ((sCurrentLine = reader.readLine()) != null) {
-            responString += sCurrentLine;
-        }
-        System.out.println(responString);
-        conn.disconnect();
-        return responString;
-    }
 
 
     /**
