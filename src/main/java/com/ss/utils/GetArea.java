@@ -26,7 +26,7 @@ public class GetArea {
         querys.put("page", "1");
         querys.put("showbiz", "true");
         querys.put("subdistrict", "0");
-        querys.put("keywords", "440100");
+        querys.put("keywords", "440200");
 
 
         try {
